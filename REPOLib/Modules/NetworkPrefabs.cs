@@ -14,13 +14,25 @@ public static class NetworkPrefabs
     /// Gets a read-only dictionary mapping network prefab IDs to their corresponding <see cref="GameObject"/>s.
     /// </summary>
     public static IReadOnlyDictionary<string, GameObject> Prefabs => _prefabs;
+
     private static readonly Dictionary<string, GameObject> _prefabs = [];
 
     /// <summary>
     /// Gets a read-only dictionary mapping network prefab IDs to their corresponding <see cref="PrefabRef"/> objects.
     /// </summary>
     public static IReadOnlyDictionary<string, PrefabRef> PrefabRefs => _prefabRefs;
+
     private static readonly Dictionary<string, PrefabRef> _prefabRefs = [];
+
+    /// <summary>
+    /// Register a <see cref="GameObject"/> as a network prefab. Overload for RegisterNetworkPrefab(string prefabId, GameObject prefab) if prefabId is not supplied.
+    /// </summary>
+    /// <param name="prefab">The <see cref="GameObject"/> to register.</param>
+    /// <returns>The registered network <see cref="PrefabRef"/> or null.</returns>
+    public static PrefabRef? RegisterNetworkPrefab(GameObject prefab)
+    {
+        return RegisterNetworkPrefab(null, prefab);
+    }
 
     /// <summary>
     /// Register a <see cref="GameObject"/> as a network prefab.
