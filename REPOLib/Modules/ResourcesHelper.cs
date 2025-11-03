@@ -5,19 +5,21 @@ namespace REPOLib.Modules;
 
 // TODO: Document this.
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+
 public static class ResourcesHelper
 {
     #region Folder Paths
+
     public static string GetValuablesFolderPath(ValuableVolume.Type volumeType)
     {
         string folder = volumeType switch
         {
-            ValuableVolume.Type.Tiny =>     "01 Tiny",
-            ValuableVolume.Type.Small =>    "02 Small",
-            ValuableVolume.Type.Medium =>   "03 Medium",
-            ValuableVolume.Type.Big =>      "04 Big",
-            ValuableVolume.Type.Wide =>     "05 Wide",
-            ValuableVolume.Type.Tall =>     "06 Tall",
+            ValuableVolume.Type.Tiny => "01 Tiny",
+            ValuableVolume.Type.Small => "02 Small",
+            ValuableVolume.Type.Medium => "03 Medium",
+            ValuableVolume.Type.Big => "04 Big",
+            ValuableVolume.Type.Wide => "05 Wide",
+            ValuableVolume.Type.Tall => "06 Tall",
             ValuableVolume.Type.VeryTall => "07 Very Tall",
             _ => string.Empty
         };
@@ -47,9 +49,11 @@ public static class ResourcesHelper
 
         return $"Level/{level.ResourcePath}/{folder}";
     }
-    #endregion
+
+    #endregion Folder Paths
 
     #region Paths
+
     public static string GetValuablePrefabPath(ValuableObject valuableObject)
     {
         if (valuableObject == null)
@@ -84,7 +88,7 @@ public static class ResourcesHelper
             return string.Empty;
         }
 
-        return GetItemPrefabPath(item.prefab);
+        return GetItemPrefabPath(item.prefab.Prefab);
     }
 
     public static string GetItemPrefabPath(GameObject prefab)
@@ -148,7 +152,8 @@ public static class ResourcesHelper
 
         return $"{folderPath}/{prefab.name}";
     }
-    #endregion
+
+    #endregion Paths
 
     public static bool HasValuablePrefab(ValuableObject valuableObject)
     {
@@ -204,4 +209,5 @@ public static class ResourcesHelper
         return Resources.Load<GameObject>(prefabId) != null;
     }
 }
+
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

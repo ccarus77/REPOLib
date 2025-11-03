@@ -12,19 +12,19 @@ internal static class StatsManagerExtensions
             return false;
         }
 
-        return statsManager.itemDictionary.ContainsKey(item.itemAssetName);
+        return statsManager.itemDictionary.ContainsKey(item.itemName);
     }
 
     internal static bool AddItem(this StatsManager statsManager, Item item)
     {
-        if (!statsManager.itemDictionary.ContainsKey(item.itemAssetName))
+        if (!statsManager.itemDictionary.ContainsKey(item.itemName))
         {
-            statsManager.itemDictionary.Add(item.itemAssetName, item);
+            statsManager.itemDictionary.Add(item.itemName, item);
         }
 
         foreach (Dictionary<string, int> dictionary in statsManager.AllDictionariesWithPrefix("item"))
         {
-            dictionary[item.itemAssetName] = 0;
+            dictionary[item.itemName] = 0;
         }
 
         return true;

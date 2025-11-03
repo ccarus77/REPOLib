@@ -16,7 +16,7 @@ internal static class ItemExtensions
             return true;
         }
 
-        if (item.itemAssetName.EqualsAny([name, $"Item {name}"], StringComparison.OrdinalIgnoreCase))
+        if (item.itemName.EqualsAny([name, $"Item {name}"], StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
@@ -41,7 +41,7 @@ internal static class ItemExtensions
             return true;
         }
 
-        if (item.itemAssetName.Contains(name, StringComparison.OrdinalIgnoreCase))
+        if (item.itemName.Contains(name, StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }

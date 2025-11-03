@@ -18,6 +18,7 @@ internal static class EnemySetupExtensions
 
         return enemySetup.spawnObjects
             .Where(x => x != null)
+            .Select(x => x.Prefab)
             .Distinct(new UnityObjectNameComparer<GameObject>()).ToList();
     }
 
@@ -30,7 +31,8 @@ internal static class EnemySetupExtensions
 
         return enemySetup.spawnObjects
             .Where(x => x != null)
-            .OrderByDescending(x => x.TryGetComponent<EnemyParent>(out _))
+            .OrderByDescending(x => x.Prefab.TryGetComponent<EnemyParent>(out _))
+            .Select(x => x.Prefab)
             .ToList();
     }
 

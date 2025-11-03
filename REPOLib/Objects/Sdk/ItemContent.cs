@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using REPOLib.Modules;
+using UnityEngine;
 
 namespace REPOLib.Objects.Sdk;
 
@@ -8,10 +9,12 @@ namespace REPOLib.Objects.Sdk;
 [CreateAssetMenu(menuName = "REPOLib/Item", order = 2, fileName = "New Item")]
 public class ItemContent : Content
 {
-    #pragma warning disable CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
+#pragma warning disable CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
+
     [SerializeField]
     private ItemAttributes _prefab = null!;
-    #pragma warning restore CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
+
+#pragma warning restore CS0649 // Field 'field' is never assigned to, and will always have its default value 'value'
 
     /// <summary>
     /// The <see cref="ItemAttributes"/> of this content.
@@ -27,7 +30,12 @@ public class ItemContent : Content
     public override void Initialize(Mod mod)
     {
         // Set prefab on item
-        _prefab.item.prefab = _prefab.gameObject;
+        var prefabId = ResourcesHelper.GetItemPrefabPath(_prefab.gameObject);
+        _prefab.item.prefab = new PrefabRef
+        {
+            prefabName = _prefab.gameObject.name,
+            resourcePath = prefabId
+        };
 
         Modules.Items.RegisterItem(Prefab.item);
     }

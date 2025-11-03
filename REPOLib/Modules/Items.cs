@@ -46,7 +46,7 @@ public static class Items
 
     private static void RegisterItemWithGame(Item item)
     {
-        Utilities.FixAudioMixerGroups(item.prefab);
+        Utilities.FixAudioMixerGroups(item.prefab.Prefab);
 
         if (StatsManager.instance.AddItem(item))
         {
@@ -81,7 +81,7 @@ public static class Items
             return;
         }
 
-        if (item.itemAssetName != item.prefab.name)
+        if (item.itemName != item.prefab.Prefab.name)
         {
             Logger.LogError($"Failed to register item \"{item.itemName}\". Item itemAssetName does not match the prefab name.");
             return;
@@ -93,7 +93,7 @@ public static class Items
             return;
         }
 
-        if (_itemsToRegister.Any(x => x.itemAssetName == item.itemAssetName))
+        if (_itemsToRegister.Any(x => x.itemName == item.itemName))
         {
             Logger.LogError($"Failed to register item \"{item.itemName}\". Item prefab already exists with the same name.");
             return;
@@ -106,7 +106,7 @@ public static class Items
         }
 
         string prefabId = ResourcesHelper.GetItemPrefabPath(item);
-        NetworkPrefabs.RegisterNetworkPrefab(prefabId, item.prefab);
+        NetworkPrefabs.RegisterNetworkPrefab(prefabId, item.prefab.Prefab);
 
         _itemsToRegister.Add(item);
 
@@ -144,7 +144,7 @@ public static class Items
         }
 
         string prefabId = ResourcesHelper.GetItemPrefabPath(item);
-        GameObject? gameObject = NetworkPrefabs.SpawnNetworkPrefab(prefabId, position, rotation);
+        GameObject? gameObject = NetworkPrefabs.SpawnNetworkPrefab(NetworkPrefabs.GetNetworkPrefabRef(prefabId)!, position, rotation);
 
         if (gameObject == null)
         {
@@ -170,7 +170,7 @@ public static class Items
 
         return StatsManager.instance.GetItems();
     }
-    
+
     /// <summary>
     /// Tries to get an <see cref="Item"/> by name.
     /// </summary>
