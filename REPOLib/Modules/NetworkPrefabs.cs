@@ -29,9 +29,10 @@ public static class NetworkPrefabs
     /// </summary>
     /// <param name="prefab">The <see cref="GameObject"/> to register.</param>
     /// <returns>The registered network <see cref="PrefabRef"/> or null.</returns>
-    public static PrefabRef? RegisterNetworkPrefab(GameObject prefab)
+    [Preserve]
+    public static void RegisterNetworkPrefab(GameObject prefab)
     {
-        return RegisterNetworkPrefab(null, prefab);
+        RegisterNetworkPrefab(prefab?.name!, prefab!);
     }
 
     /// <summary>
@@ -127,8 +128,18 @@ public static class NetworkPrefabs
     /// <param name="group">The interest group. See: https://doc.photonengine.com/pun/current/gameplay/interestgroups</param>
     /// <param name="data">Custom instantiation data. See: https://doc.photonengine.com/pun/current/gameplay/instantiation#custom-instantiation-data</param>
     /// <returns>The spawned <see cref="GameObject"/> or null.</returns>
-    public static GameObject? SpawnNetworkPrefab(PrefabRef prefabRef, Vector3 position, Quaternion rotation, byte group = 0, object[]? data = null)
+    [Preserve]
+    public static GameObject? SpawnNetworkPrefab(string prefabId, Vector3 position, Quaternion rotation, byte group = 0, object[]? data = null)
     {
+        PrefabRef? prefabRef = null!;
+        TryGetNetworkPrefabRef(prefabId, out prefabRef);
+
+        if (prefabRef == null)
+        {
+            Logger.LogError("Failed to spawn network prefab. PrefabRef is null.");
+            return null;
+        }
+
         if (!prefabRef.IsValid())
         {
             Logger.LogError("Failed to spawn network prefab. PrefabRef is not valid.");
